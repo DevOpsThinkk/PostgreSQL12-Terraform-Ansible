@@ -1,0 +1,37 @@
+#------------------------------------------------------------------------------
+# DIRECTORY CREATIONS
+#------------------------------------------------------------------------------
+
+- name: PostgreSQL | Create folder for additional configuration files
+  file:
+    name: "{{ postgresql_config_path }}/conf.d"
+    state: directory
+    owner: "{{ postgresql_user }}"
+    group: "{{ postgresql_group }}"
+    mode: "{{ postgresql_directories_mode }}"
+
+- name: Ensure PostgreSQL unix socket dirs exist.
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ postgresql_user }}"
+    group: "{{ postgresql_group }}"
+    mode: "{{ postgresql_directories_mode }}"
+  with_items: "{{ postgresql_unix_socket_directories }}"
+
+- name: PostgreSQL | Ensure the systemd directory for PostgreSQL exists | RedHat
+  file:
+    name: "/etc/systemd/system/postgresql-{{ postgresql_version }}.service.d"
+    state: directory
+    mode: "{{ postgresql_directories_mode }}"
+  when: ansible_os_family == "RedHat"
+
+- name: PostgreSQL | Make sure the postgres log directory exists
+  file:
+    path: "{{ postgresql_log_directory }}"
+    owner: "{{ postgresql_user }}"
+    group: "{{ postgresql_group }}"
+    state: directory
+    mode: "{{ postgresql_directories_mode }}"
+  register: pglog_dir_exist
+  when: postgresql_log_directory != "pg_log"

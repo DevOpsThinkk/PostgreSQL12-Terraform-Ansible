@@ -1,0 +1,45 @@
+---
+- name: Update and Configure postgresql.conf file
+  template:
+    src: "postgresql.conf-{{ postgresql_version }}.j2"
+    # if using pgtune, save the template to ".untuned"
+    dest: "{{postgresql_config_path}}/postgresql.conf"
+    owner: "{{ postgresql_user }}"
+    group: "{{ postgresql_group }}"
+    mode: 0600
+  register: postgresql_conf
+
+- name: Update and Configure pg_hba.conf file
+  template:
+    src: "pg_hba.conf.j2"
+    dest: "{{ postgresql_config_path }}/pg_hba.conf"
+    owner: "{{ postgresql_user }}"
+    group: "{{ postgresql_group }}"
+    mode: 0600
+  when: postgresql_hba_entries | length > 0
+  register: pg_hba_conf
+
+- name: Update and Configure pg_ident.conf file
+  template:
+    src: pg_ident.conf.j2
+    dest: "{{ postgresql_ident_file }}"
+    owner: "{{ postgresql_user }}"
+    group: "{{ postgresql_group }}"
+    mode: 0640
+  register: pg_ident_conf
+
+- name: Use the conf directory when starting the Postgres service | RedHat
+  template:
+    src: service.d_custom.conf.j2
+    dest: "/etc/systemd/system/postgresql-{{ postgresql_version }}.service.d/custom.conf"
+  when: ansible_os_family == "RedHat"
+  register: custom_conf
+  notify: restart postgresql
+
+- name: Reload all conf files
+  service:
+    name: "{{ postgresql_daemon }}"
+    state: reloaded
+  when: postgresql_conf.changed or pg_hba_conf.changed or pg_ident_conf.changed 
+
+
