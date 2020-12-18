@@ -9,11 +9,11 @@ variable "ssh_key_private" {
 }
 
 variable "server_vpc_ip" {
-  default = "10.10.10.0/28"
+  default = "10.10.10.0/24"
 }
 
 variable "server_ports" {
-  type = list(number)
+  type        = list(number)
   description = "list of ingress ports"
-  default = [22, 80, 443, 5432]
+  default     = [22, 80, 443, 5432]
 }

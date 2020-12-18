@@ -1,5 +1,5 @@
-resource "aws_volume_attachment" "ebs_attachment" {
+resource "aws_volume_attachment" "pgsql_ebs_att" {
   device_name = "/dev/sdh"
-  volume_id   = aws_ebs_volume.PGSQL_EBS.id
-  instance_id = aws_instance.PostgreSQL.id
+  volume_id   = aws_ebs_volume.pgsql_ebs.id
+  instance_id = aws_instance.pgsql_ec2.id
 }

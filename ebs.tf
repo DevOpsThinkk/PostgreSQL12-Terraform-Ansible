@@ -1,8 +1,9 @@
-resource "aws_ebs_volume" "PGSQL_EBS" {
+resource "aws_ebs_volume" "pgsql_ebs" {
   availability_zone = "us-west-2a"
-  size              = 10
+  size              = 4
   type              = "io2"
   tags = {
-    Name = "PGSQL_EBS"
+    Name = "pgsql_ebs"
   }
 }
+
