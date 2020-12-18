@@ -1,0 +1,55 @@
+digraph {
+	compound = "true"
+	newrank = "true"
+	subgraph "root" {
+		"[root] aws_ebs_volume.pgsql_ebs (expand)" [label = "aws_ebs_volume.pgsql_ebs", shape = "box"]
+		"[root] aws_instance.pgsql_ec2 (expand)" [label = "aws_instance.pgsql_ec2", shape = "box"]
+		"[root] aws_internet_gateway.pgsql_igw (expand)" [label = "aws_internet_gateway.pgsql_igw", shape = "box"]
+		"[root] aws_route_table.pgsql_public_route_table (expand)" [label = "aws_route_table.pgsql_public_route_table", shape = "box"]
+		"[root] aws_route_table_association.pgsql_public_subnet_asso (expand)" [label = "aws_route_table_association.pgsql_public_subnet_asso", shape = "box"]
+		"[root] aws_security_group.pgsql_sec_grp (expand)" [label = "aws_security_group.pgsql_sec_grp", shape = "box"]
+		"[root] aws_subnet.pgsql_public_subnet (expand)" [label = "aws_subnet.pgsql_public_subnet", shape = "box"]
+		"[root] aws_volume_attachment.pgsql_ebs_att (expand)" [label = "aws_volume_attachment.pgsql_ebs_att", shape = "box"]
+		"[root] aws_vpc.pgsql_vpc (expand)" [label = "aws_vpc.pgsql_vpc", shape = "box"]
+		"[root] output.aws_instance_public_dns" [label = "output.aws_instance_public_dns", shape = "note"]
+		"[root] output.public_ip" [label = "output.public_ip", shape = "note"]
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"]" [label = "provider[\"registry.terraform.io/hashicorp/aws\"]", shape = "diamond"]
+		"[root] var.aws_region" [label = "var.aws_region", shape = "note"]
+		"[root] var.aws_vpc_cidr" [label = "var.aws_vpc_cidr", shape = "note"]
+		"[root] var.server_ports" [label = "var.server_ports", shape = "note"]
+		"[root] var.server_vpc_ip" [label = "var.server_vpc_ip", shape = "note"]
+		"[root] var.ssh_key_private" [label = "var.ssh_key_private", shape = "note"]
+		"[root] var.ssh_key_public" [label = "var.ssh_key_public", shape = "note"]
+		"[root] aws_ebs_volume.pgsql_ebs (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+		"[root] aws_instance.pgsql_ec2 (expand)" -> "[root] aws_security_group.pgsql_sec_grp (expand)"
+		"[root] aws_instance.pgsql_ec2 (expand)" -> "[root] aws_subnet.pgsql_public_subnet (expand)"
+		"[root] aws_instance.pgsql_ec2 (expand)" -> "[root] provisioner.local-exec"
+		"[root] aws_instance.pgsql_ec2 (expand)" -> "[root] provisioner.remote-exec"
+		"[root] aws_internet_gateway.pgsql_igw (expand)" -> "[root] aws_vpc.pgsql_vpc (expand)"
+		"[root] aws_route_table.pgsql_public_route_table (expand)" -> "[root] aws_internet_gateway.pgsql_igw (expand)"
+		"[root] aws_route_table_association.pgsql_public_subnet_asso (expand)" -> "[root] aws_route_table.pgsql_public_route_table (expand)"
+		"[root] aws_route_table_association.pgsql_public_subnet_asso (expand)" -> "[root] aws_subnet.pgsql_public_subnet (expand)"
+		"[root] aws_security_group.pgsql_sec_grp (expand)" -> "[root] aws_vpc.pgsql_vpc (expand)"
+		"[root] aws_security_group.pgsql_sec_grp (expand)" -> "[root] var.server_ports"
+		"[root] aws_subnet.pgsql_public_subnet (expand)" -> "[root] aws_vpc.pgsql_vpc (expand)"
+		"[root] aws_volume_attachment.pgsql_ebs_att (expand)" -> "[root] aws_ebs_volume.pgsql_ebs (expand)"
+		"[root] aws_volume_attachment.pgsql_ebs_att (expand)" -> "[root] aws_instance.pgsql_ec2 (expand)"
+		"[root] aws_vpc.pgsql_vpc (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+		"[root] aws_vpc.pgsql_vpc (expand)" -> "[root] var.server_vpc_ip"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] aws_route_table_association.pgsql_public_subnet_asso (expand)"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] aws_volume_attachment.pgsql_ebs_att (expand)"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] output.aws_instance_public_dns"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] output.public_ip"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] var.aws_region"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] var.aws_vpc_cidr"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] var.ssh_key_private"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] var.ssh_key_public"
+		"[root] output.aws_instance_public_dns" -> "[root] aws_instance.pgsql_ec2 (expand)"
+		"[root] output.public_ip" -> "[root] aws_instance.pgsql_ec2 (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)" -> "[root] aws_route_table_association.pgsql_public_subnet_asso (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)" -> "[root] aws_volume_attachment.pgsql_ebs_att (expand)"
+		"[root] root" -> "[root] meta.count-boundary (EachMode fixup)"
+		"[root] root" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)"
+	}
+}
+

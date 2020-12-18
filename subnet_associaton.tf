@@ -1,5 +1,5 @@
 # Public Subnet Association
-resource "aws_route_table_association" "public_subnet_association" {
+resource "aws_route_table_association" "pgsql_public_subnet_asso" {
   subnet_id      = aws_subnet.pgsql_public_subnet.id
   route_table_id = aws_route_table.pgsql_public_route_table.id
 }
