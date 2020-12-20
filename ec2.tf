@@ -9,8 +9,14 @@ resource "aws_instance" "pgsql_ec2" {
     Name = "pgsql_ec2"
   }
 }
-resource "null_resource" "example" {
+resource "null_resource" "pgsql_ec2" {
   provisioner "remote-exec" {
+      connection {
+        type        = "ssh"
+        user        = "ec2-user"
+        private_key = file("./Naresh.pem")
+        host        = aws_instance.pgsql_ec2.public_dns
+  }
      inline = ["echo 'connected!'"]
   }
   provisioner "local-exec" {
