@@ -17,3 +17,9 @@ variable "server_ports" {
   description = "list of ingress ports"
   default     = [22, 80, 443, 5432]
 }
+
+variable "ebs_iops" {
+  type        = number
+  default     = 100
+  description = "The baseline input/output (I/O) performance of EBS volumes attached to data nodes. Applicable only for the Provisioned IOPS EBS volume type"
+}
