@@ -13,13 +13,13 @@ resource "aws_security_group" "pgsql_sec_grp" {
       from_port   = port.value
       to_port     = port.value
       protocol    = "tcp"
-      cidr_blocks = [aws_vpc.pgsql_vpc.cidr_block]
+      cidr_blocks = var.security_grp_cidr
     }
   }
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = var.security_grp_cidr
   }
 }
