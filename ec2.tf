@@ -8,11 +8,10 @@ resource "aws_instance" "pgsql_ec2" {
   tags = {
     Name = "pgsql_ec2"
   }
-
+}
+resource "null_resource" "example" {
   provisioner "remote-exec" {
-    inline = [
-      "sudo uptime"
-    ]
+     inline = ["echo 'connected!'"]
   }
   provisioner "local-exec" {
     command = "echo ${aws_instance.pgsql_ec2.private_ip} >> host.txt"
